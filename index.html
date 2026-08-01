@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ベビーカーナビ｜ベビーカーでも、迷わない電車移動を</title>
+<meta name="description" content="どの号車に乗ればエレベーターに一番近いか、ホームから地上までの道のりを教えてくれる。子育て家庭のための小さなお守りアプリ「ベビーカーナビ」。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8F0;
+    --cream-deep:#FBEEDD;
+    --coral:#FF8A65;
+    --coral-deep:#F4703F;
+    --mint:#8FD3C7;
+    --mint-deep:#5FB8A8;
+    --ink:#4A3F35;
+    --ink-soft:#8A7A6C;
+    --white:#FFFFFF;
+    --radius-lg:28px;
+    --radius-md:18px;
+    --radius-sm:12px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+
+  /* Header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,248,240,0.9);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(74,63,53,0.06);
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1040px;margin:0 auto;
+  }
+  .logo{
+    display:flex;align-items:center;gap:8px;
+    font-weight:700;font-size:18px;color:var(--coral-deep);
+    text-decoration:none;
+  }
+  .logo-badge{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--coral);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+  }
+  nav{display:flex;gap:24px;font-size:14px;font-weight:500;}
+  nav a{text-decoration:none;color:var(--ink-soft);}
+  nav a:hover{color:var(--coral-deep);}
+  @media (max-width:560px){ nav{display:none;} }
+
+  /* Hero */
+  .hero{
+    padding:64px 0 40px;
+    text-align:center;
+  }
+  .eyebrow{
+    display:inline-block;
+    background:var(--white);
+    color:var(--coral-deep);
+    font-size:13px;font-weight:700;
+    padding:6px 16px;border-radius:999px;
+    box-shadow:0 4px 14px rgba(244,112,63,0.12);
+    margin-bottom:22px;
+  }
+  h1{
+    font-size:clamp(28px,5vw,44px);
+    line-height:1.5;
+    margin:0 0 20px;
+    font-weight:900;
+    color:var(--ink);
+  }
+  h1 .accent{color:var(--coral-deep);}
+  .hero p.lead{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:520px;
+    margin:0 auto 32px;
+  }
+  .cta-row{
+    display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    margin-bottom:48px;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:15px 30px;
+    border-radius:999px;
+    font-weight:700;font-size:15px;
+    text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{
+    background:var(--coral);color:var(--white);
+    box-shadow:0 10px 24px rgba(255,138,101,0.35);
+  }
+  .btn-primary:hover{box-shadow:0 14px 28px rgba(255,138,101,0.45);}
+  .btn-secondary{
+    background:var(--white);color:var(--ink);
+    border:1.5px solid var(--cream-deep);
+  }
+
+  /* Hero visual: train cars */
+  .train-visual{
+    display:flex;justify-content:center;gap:8px;
+    max-width:640px;margin:0 auto;padding:0 12px;
+    flex-wrap:wrap;
+  }
+  .car{
+    width:64px;height:56px;
+    background:var(--white);
+    border-radius:14px 14px 6px 6px;
+    border:2px solid var(--cream-deep);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;color:var(--ink-soft);font-weight:700;
+    position:relative;
+  }
+  .car.active{
+    background:var(--mint);
+    border-color:var(--mint-deep);
+    color:var(--white);
+    transform:scale(1.12);
+    box-shadow:0 8px 20px rgba(95,184,168,0.35);
+  }
+  .car.active::after{
+    content:"♿🛗";
+    position:absolute;top:-30px;left:50%;transform:translateX(-50%);
+    font-size:20px;
+  }
+
+  /* Sections */
+  section{padding:56px 0;}
+  .section-title{
+    text-align:center;
+    font-size:clamp(22px,3.4vw,30px);
+    font-weight:900;
+    margin:0 0 12px;
+  }
+  .section-sub{
+    text-align:center;color:var(--ink-soft);
+    max-width:480px;margin:0 auto 40px;
+    font-size:15px;
+  }
+
+  /* Problem cards */
+  .grid3{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  }
+  @media (max-width:760px){ .grid3{grid-template-columns:1fr;} }
+  .card{
+    background:var(--white);
+    border-radius:var(--radius-md);
+    padding:28px 24px;
+    box-shadow:0 6px 20px rgba(74,63,53,0.06);
+  }
+  .card .icon{
+    font-size:30px;
+    width:52px;height:52px;
+    border-radius:50%;
+    background:var(--cream-deep);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:16px;
+  }
+  .card h3{margin:0 0 8px;font-size:16px;font-weight:700;}
+  .card p{margin:0;color:var(--ink-soft);font-size:14px;}
+
+  /* How it works */
+  .steps{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  @media (max-width:760px){ .steps{grid-template-columns:1fr;} }
+  .step{text-align:center;}
+  .step-num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:50%;
+    background:var(--coral);color:var(--white);
+    font-weight:700;font-size:14px;margin-bottom:14px;
+  }
+  .shot{
+    background:var(--white);
+    border:2px dashed var(--cream-deep);
+    border-radius:var(--radius-md);
+    aspect-ratio:9/16;
+    max-width:220px;margin:0 auto 16px;
+    display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:8px;
+    color:var(--ink-soft);font-size:13px;
+    padding:16px;text-align:center;
+  }
+  .shot span{font-size:26px;}
+  .step h3{margin:0 0 6px;font-size:15px;font-weight:700;}
+  .step p{margin:0;color:var(--ink-soft);font-size:13px;}
+
+  /* Status */
+  .status-box{
+    background:var(--white);
+    border-radius:var(--radius-lg);
+    padding:40px;
+    box-shadow:0 10px 30px rgba(74,63,53,0.07);
+  }
+  @media (max-width:600px){ .status-box{padding:28px 20px;} }
+  .status-top{
+    display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;
+  }
+  .pulse{
+    width:10px;height:10px;border-radius:50%;
+    background:var(--mint-deep);
+    box-shadow:0 0 0 4px rgba(95,184,168,0.2);
+  }
+  .status-top strong{font-size:15px;}
+  .station-list{
+    display:flex;flex-wrap:wrap;gap:10px;
+    margin:0 0 20px;padding:0;list-style:none;
+  }
+  .station-list li{
+    background:var(--cream-deep);
+    color:var(--ink);
+    font-size:13px;font-weight:500;
+    padding:8px 16px;border-radius:999px;
+  }
+  .status-note{color:var(--ink-soft);font-size:14px;margin:0;}
+
+  /* Final CTA */
+  .final-cta{
+    text-align:center;
+    background:linear-gradient(180deg,var(--coral) 0%,var(--coral-deep) 100%);
+    border-radius:var(--radius-lg);
+    padding:56px 32px;
+    color:var(--white);
+  }
+  .final-cta h2{font-size:clamp(22px,4vw,30px);margin:0 0 12px;font-weight:900;}
+  .final-cta p{color:rgba(255,255,255,0.9);max-width:440px;margin:0 auto 30px;font-size:15px;}
+  .final-cta .btn-primary{background:var(--white);color:var(--coral-deep);box-shadow:0 10px 24px rgba(0,0,0,0.15);}
+  .final-cta .btn-secondary{background:transparent;color:var(--white);border-color:rgba(255,255,255,0.5);}
+
+  footer{
+    text-align:center;
+    padding:32px 24px 48px;
+    color:var(--ink-soft);
+    font-size:13px;
+  }
+  footer a{text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#top">
+      <span class="logo-badge">🍼</span>
+      ベビーカーナビ
+    </a>
+    <nav>
+      <a href="#how">使い方</a>
+      <a href="#status">今の状態</a>
+      <a href="#contact">感想を送る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero wrap">
+    <span class="eyebrow">子育て家庭のための、小さなお守りアプリ</span>
+    <h1>ベビーカーを押しながら、<br class="only-mobile"><span class="accent">もう迷わない。</span></h1>
+    <p class="lead">
+      どの号車に乗ればエレベーターに一番近いか。ホームに降りてから地上まで、どう歩けばいいか。<br>
+      知らない駅でも、アプリを開くだけでわかります。
+    </p>
+    <div class="cta-row">
+      <!-- TODO: 実際の利用リンク（Expo Go の QR / URL など）に差し替えてください -->
+      <a class="btn btn-primary" href="#" target="_blank" rel="noopener">📱 使ってみる</a>
+      <a class="btn btn-secondary" href="#how">使い方を見る</a>
+    </div>
+
+    <div class="train-visual" aria-hidden="true">
+      <div class="car">1</div>
+      <div class="car">2</div>
+      <div class="car active">3</div>
+      <div class="car">4</div>
+      <div class="car">5</div>
+      <div class="car">6</div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section class="wrap">
+    <h2 class="section-title">「あるある」を、なくしたい</h2>
+    <p class="section-sub">ベビーカーで電車に乗るとき、こんな時間のロスに心当たりはありませんか。</p>
+    <div class="grid3">
+      <div class="card">
+        <div class="icon">🏃</div>
+        <h3>お迎えの時間がギリギリ</h3>
+        <p>降りてからエレベーターを探して右往左往。数分の遅れが、保育園のお迎え時間を圧迫します。</p>
+      </div>
+      <div class="card">
+        <div class="icon">🗺️</div>
+        <h3>知らない駅で迷子に</h3>
+        <p>初めて降りる駅ほど、ホームのどちら側にエレベーターがあるのか見当がつきません。</p>
+      </div>
+      <div class="card">
+        <div class="icon">🛗</div>
+        <h3>着いてから故障中と判明</h3>
+        <p>ホームに降りてからエレベーターが使えないと気づいても、もう手遅れ。事前に知りたい情報です。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="wrap" id="how">
+    <h2 class="section-title">使い方はシンプルに、3ステップ</h2>
+    <p class="section-sub">乗る前に開くだけ。むずかしい設定は必要ありません。</p>
+    <div class="steps">
+      <div class="step">
+        <div class="shot"><span>🚉</span>路線・方面を選ぶ<br>スクリーンショット</div>
+        <div class="step-num">1</div>
+        <h3>路線と方面を選ぶ</h3>
+        <p>駅を検索して、乗る路線と方面をタップするだけ。</p>
+      </div>
+      <div class="step">
+        <div class="shot"><span>🚃</span>号車案内<br>スクリーンショット</div>
+        <div class="step-num">2</div>
+        <h3>おすすめ号車がひと目でわかる</h3>
+        <p>全編成のうち、エレベーターに一番近い号車をハイライト表示。</p>
+      </div>
+      <div class="step">
+        <div class="shot"><span>🛗</span>地上への経路<br>スクリーンショット</div>
+        <div class="step-num">3</div>
+        <h3>地上までの道のりを案内</h3>
+        <p>降りたあとの進む方向と、エレベーターの稼働状況もあわせて確認できます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Status -->
+  <section class="wrap" id="status">
+    <div class="status-box">
+      <div class="status-top">
+        <span class="pulse"></span>
+        <strong>今、こんな感じで使えます</strong>
+      </div>
+      <p class="status-note" style="margin-bottom:20px;">
+        まずは身近な子育て家庭の間で、限定的に使ってもらっている段階です。対応駅はこれから少しずつ増やしていきます。
+      </p>
+      <ul class="station-list">
+        <li>渋谷</li>
+        <li>新宿三丁目</li>
+        <li>池袋</li>
+        <li>表参道</li>
+        <li>銀座</li>
+        <li>上野</li>
+        <li>秋葉原</li>
+        <li>新橋</li>
+        <li>大手町</li>
+        <li>霞ケ関</li>
+      </ul>
+      <p class="status-note">対応路線・駅は今後拡大予定です。使ってみた感想は、ぜひ下のリンクから教えてください。</p>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="wrap" id="contact">
+    <div class="final-cta">
+      <h2>使ってみたい、感想を伝えたい方へ</h2>
+      <p>「知らない駅でも迷わなかった」という声を聞かせてください。すぐに反映していきます。</p>
+      <div class="cta-row">
+        <!-- TODO: 実際の利用リンクに差し替えてください -->
+        <a class="btn btn-primary" href="#" target="_blank" rel="noopener">📱 使ってみる</a>
+        <!-- TODO: 実際の連絡先（メール / LINE / フォームなど）に差し替えてください -->
+        <a class="btn btn-secondary" href="mailto:example@example.com">💬 感想を送る</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>ベビーカーナビ — 子育て家庭のための、電車移動サポートアプリ（開発中）</p>
+</footer>
+
+</body>
+</html>
