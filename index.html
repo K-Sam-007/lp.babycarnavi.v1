@@ -193,16 +193,16 @@
   }
   .shot{
     background:var(--white);
-    border:2px dashed var(--cream-deep);
+    border:1px solid var(--cream-deep);
     border-radius:var(--radius-md);
     aspect-ratio:9/16;
     max-width:220px;margin:0 auto 16px;
-    display:flex;align-items:center;justify-content:center;
-    flex-direction:column;gap:8px;
-    color:var(--ink-soft);font-size:13px;
-    padding:16px;text-align:center;
+    overflow:hidden;
   }
-  .shot span{font-size:26px;}
+  .shot img{
+    display:block;width:100%;height:100%;
+    object-fit:cover;object-position:top;
+  }
   .step h3{margin:0 0 6px;font-size:15px;font-weight:700;}
   .step p{margin:0;color:var(--ink-soft);font-size:13px;}
 
@@ -327,19 +327,19 @@
     <p class="section-sub">乗る前に開くだけ。むずかしい設定は必要ありません。</p>
     <div class="steps">
       <div class="step">
-        <div class="shot"><span>🚉</span>路線・方面を選ぶ<br>スクリーンショット</div>
+        <div class="shot"><img src="assets/shots/step1.png" alt="駅名を検索して対応駅の一覧から選ぶ画面" loading="lazy" width="390" height="693"></div>
         <div class="step-num">1</div>
         <h3>路線と方面を選ぶ</h3>
         <p>駅を検索して、乗る路線と方面をタップするだけ。</p>
       </div>
       <div class="step">
-        <div class="shot"><span>🚃</span>号車案内<br>スクリーンショット</div>
+        <div class="shot"><img src="assets/shots/step2.png" alt="おすすめ号車の番号と列車の号車図を表示している画面" loading="lazy" width="390" height="693"></div>
         <div class="step-num">2</div>
         <h3>おすすめ号車がひと目でわかる</h3>
         <p>全編成のうち、エレベーターに一番近い号車をハイライト表示。</p>
       </div>
       <div class="step">
-        <div class="shot"><span>🛗</span>地上への経路<br>スクリーンショット</div>
+        <div class="shot"><img src="assets/shots/step3.png" alt="エレベーターへの行き方と地上への経路、稼働状況を表示している画面" loading="lazy" width="390" height="693"></div>
         <div class="step-num">3</div>
         <h3>地上までの道のりを案内</h3>
         <p>降りたあとの進む方向と、エレベーターの稼働状況もあわせて確認できます。</p>
@@ -380,7 +380,7 @@
       <p>「知らない駅でも迷わなかった」という声を聞かせてください。すぐに反映していきます。</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="app/">📱 使ってみる</a>
-        <a class="btn btn-secondary" href="mailto:ok12180311@gmail.com?subject=ベビーカーナビへの感想">💬 感想を送る</a>
+        <a class="btn btn-secondary" href="https://forms.gle/fouEeu7KSPTD58Ls7" target="_blank" rel="noopener">💬 感想を送る</a>
       </div>
     </div>
   </section>
